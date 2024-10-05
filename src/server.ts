@@ -9,12 +9,12 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 ///////////////////////////////////////////////////////////////////////
-import { ENVIRONMENT, connectDb, disconnectDb } from '@/common/config';
+import { ENVIRONMENT, connectDb, disconnectDb, knexDb } from '@/common/config';
 import '@/common/interfaces/request';
 import { logger, stream } from '@/common/utils';
 import { errorHandler } from '@/controllers';
 import { timeoutMiddleware } from '@/middlewares';
-import { userRouter } from '@/routes';
+import { userRouter, authRouter } from '@/routes';
 import compression from 'compression';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
@@ -148,6 +148,8 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 app.use('/api/v1/alive', (req, res) =>
 	res.status(200).json({ status: 'success', message: 'Server is up and running' })
 );
+
+app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/user', userRouter);
 
 app.all('/*', async (req, res) => {
@@ -193,6 +195,20 @@ async function shutdown() {
 	await disconnectDb();
 	process.exit(0);
 }
+
+async function migrate() {
+	try {
+		await knexDb.migrate.latest();
+		console.log('Migrations completed!');
+	} catch (error) {
+		console.error('Migration failed:', error);
+	}
+}
+
+migrate().catch((err) => {
+	console.error(err);
+	process.exit(1);
+});
 
 // graceful shutdown on SIGINT and SIGTERM
 process.on('SIGINT', shutdown);

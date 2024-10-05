@@ -13,12 +13,10 @@ export interface IEnvironment {
 		PORT: string;
 	};
 	JWT: {
-		ACCESS_KEY: string;
-		REFRESH_KEY: string;
+		AUTH_SECRET: string;
 	};
 	JWT_EXPIRES_IN: {
-		ACCESS: string;
-		REFRESH: string;
+		AUTH: string;
 	};
 	EMAIL: {
 		GMAIL_USER: string;

@@ -11,4 +11,5 @@ export * from './logger';
 export { default as AppError } from './appError';
 export * from './appResponse';
 export * from './helper';
-export * from './catchAsyncErrors'
+export * from './catchAsyncErrors';
+export * from './validate';

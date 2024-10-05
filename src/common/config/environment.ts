@@ -15,12 +15,10 @@ export const ENVIRONMENT: IEnvironment = {
 		PORT: process.env.DB_PORT!,
 	},
 	JWT: {
-		ACCESS_KEY: process.env.ACCESS_TOKEN!,
-		REFRESH_KEY: process.env.REFRESH_TOKEN!,
+		AUTH_SECRET: process.env.AUTH_SECRET!,
 	},
 	JWT_EXPIRES_IN: {
-		ACCESS: process.env.ACCESS_TOKEN_EXPIRES_IN!,
-		REFRESH: process.env.REFRESH_TOKEN_EXPIRES_IN!,
+		AUTH: process.env.AUTH_TOKEN_EXPIRES_IN!,
 	},
 	EMAIL: {
 		GMAIL_USER: process.env.GMAIL_USER!,

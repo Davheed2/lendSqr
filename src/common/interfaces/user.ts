@@ -10,9 +10,9 @@ export interface IUser {
 	password: string;
 	role: Role;
 	ipAddress: string;
-	//emailVerificationToken?: string;
 	isSuspended: boolean;
-	isEmailVerified: boolean;
+	walletAddress: string;
+	walletBalance: number;
 	isDeleted: boolean;
 	created_at?: Date;
 	updated_at?: Date;

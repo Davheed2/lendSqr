@@ -1,6 +1,9 @@
 import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
 import { randomBytes, randomInt } from 'crypto';
 import { encode } from 'hi-base32';
+import { IToken } from '../interfaces';
+import { ENVIRONMENT } from '../config';
 
 const generateRandomString = () => {
 	return randomBytes(32).toString('hex');
@@ -30,6 +33,17 @@ const generateRandom6DigitKey = () => {
 	return randomNum.toString().padStart(6, '0');
 };
 
+const generateAuthToken = (user: IToken) => {
+	const payload = { id: user };
+
+	const token = jwt.sign(payload, ENVIRONMENT.JWT.AUTH_SECRET as string, {
+		expiresIn: ENVIRONMENT.JWT_EXPIRES_IN.AUTH,
+	});
+
+	console.log(token);
+	return token;
+};
+
 const dateFromString = async (value: string) => {
 	const date = new Date(value);
 
@@ -40,11 +54,34 @@ const dateFromString = async (value: string) => {
 	return date;
 };
 
+const parseTokenDuration = (duration: string): number => {
+	const match = duration.match(/(\d+)([smhd])/);
+	if (!match) return 0;
+
+	const value = parseInt(match[1]);
+	const unit = match[2];
+
+	switch (unit) {
+		case 's':
+			return value * 1000;
+		case 'm':
+			return value * 60 * 1000;
+		case 'h':
+			return value * 60 * 60 * 1000;
+		case 'd':
+			return value * 24 * 60 * 60 * 1000;
+		default:
+			return 0;
+	}
+};
+
 export {
 	dateFromString,
 	generateRandom6DigitKey,
 	generateRandomBase32,
 	generateRandomString,
+	generateAuthToken,
 	hashPassword,
 	comparePassword,
+	parseTokenDuration,
 };
