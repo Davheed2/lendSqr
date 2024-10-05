@@ -13,3 +13,4 @@ export * from './appResponse';
 export * from './helper';
 export * from './catchAsyncErrors';
 export * from './validate';
+export * from './authenticate';

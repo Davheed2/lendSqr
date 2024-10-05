@@ -33,6 +33,7 @@ const generateRandom6DigitKey = () => {
 	return randomNum.toString().padStart(6, '0');
 };
 
+//jwt.JwtPayload
 const generateAuthToken = (user: IToken) => {
 	const payload = { id: user };
 
