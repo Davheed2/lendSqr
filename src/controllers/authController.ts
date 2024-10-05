@@ -1,8 +1,10 @@
 import {
 	AppError,
 	catchAsync,
+	comparePassword,
 	generateAuthToken,
 	hashPassword,
+	toJSON,
 	trim,
 	validateEmail,
 	validatePassword,
@@ -56,6 +58,28 @@ class AuthController {
 		await generateAuthToken(token);
 
 		return AppResponse(res, 201, user, 'User created successfully');
+	});
+
+	signIn = catchAsync(async (req: Request, res: Response) => {
+		const { email, password } = req.body;
+
+		if (!email || !password) {
+			throw new AppError('Please provide email and password', 400);
+		}
+
+		const user = await userRepository.findByEmail(email);
+		if (!user) {
+			throw new AppError('Invalid email or password', 401);
+		}
+
+		const isPasswordValid = await comparePassword(password, user.password);
+		if (!isPasswordValid) {
+			throw new AppError('Invalid email or password', 401);
+		}
+
+		await generateAuthToken(user.id);
+
+		return AppResponse(res, 200, toJSON(user, ['password']), 'Login successful');
 	});
 }
 

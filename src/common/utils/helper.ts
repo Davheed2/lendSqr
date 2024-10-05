@@ -75,6 +75,12 @@ const parseTokenDuration = (duration: string): number => {
 	}
 };
 
+const toJSON = <T extends Record<string, unknown>>(obj: T, excludeFields: string[] = []): Partial<T> => {
+	const sanitizedObj: Partial<T> = { ...obj };
+	excludeFields.forEach((field) => delete sanitizedObj[field]);
+	return sanitizedObj;
+};
+
 export {
 	dateFromString,
 	generateRandom6DigitKey,
@@ -84,4 +90,5 @@ export {
 	hashPassword,
 	comparePassword,
 	parseTokenDuration,
+	toJSON,
 };
