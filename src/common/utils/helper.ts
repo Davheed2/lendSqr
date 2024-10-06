@@ -81,6 +81,10 @@ const toJSON = <T extends Record<string, unknown>>(obj: T, excludeFields: string
 	return sanitizedObj;
 };
 
+const generateUniqueTransactionReference = () => {
+	return `TX-${Date.now()}-${Math.random().toString(36).substring(2, 9).toUpperCase()}`;
+};
+
 export {
 	dateFromString,
 	generateRandom6DigitKey,
@@ -91,5 +95,5 @@ export {
 	comparePassword,
 	parseTokenDuration,
 	toJSON,
-
+	generateUniqueTransactionReference,
 };

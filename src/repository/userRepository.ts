@@ -1,6 +1,7 @@
 import { knexDb } from '@/common/config';
 import { IUser, WalletBalance } from '@/common/interfaces';
-import { AppError } from '@/common/utils';
+import { AppError, generateUniqueTransactionReference } from '@/common/utils';
+import { transactionRepository } from './transactionRepository';
 
 class UserRepository {
 	create = async (payload: Partial<IUser>) => {
@@ -47,6 +48,17 @@ class UserRepository {
 			const newBalance = currentBalance + validatedAmount;
 
 			await trx('users').where({ id: userId }).update({ walletBalance: newBalance });
+
+			await trx.commit();
+
+			await transactionRepository.create({
+				senderId: userId,
+				receiverId: userId,
+				amount: validatedAmount,
+				transactionType: 'deposit',
+				status: 'completed',
+				transactionReference: generateUniqueTransactionReference(),
+			});
 		});
 	};
 
@@ -82,6 +94,18 @@ class UserRepository {
 			await trx('users')
 				.where({ walletAddress })
 				.update({ walletBalance: receiverBalance + validatedAmount });
+
+			await trx.commit();
+
+			await transactionRepository.create({
+				senderId: senderId,
+				receiverId: receiver.id,
+        walletAddress: walletAddress,
+				amount: validatedAmount,
+				transactionType: 'transfer',
+				status: 'completed',
+				transactionReference: generateUniqueTransactionReference(),
+			});
 		});
 	};
 
@@ -91,6 +115,17 @@ class UserRepository {
 				.where({ id: userId })
 				.update({ walletBalance: balance - amount });
 			await trx('users');
+
+			await trx.commit();
+
+			await transactionRepository.create({
+				senderId: userId,
+				receiverId: userId,
+				amount: amount,
+				transactionType: 'withdraw',
+				status: 'completed',
+				transactionReference: generateUniqueTransactionReference(),
+			});
 		});
 	};
 }
