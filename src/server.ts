@@ -19,7 +19,6 @@ import compression from 'compression';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import express, { Express, NextFunction, Request, Response } from 'express';
-import mongoSanitize from 'express-mongo-sanitize';
 import rateLimit from 'express-rate-limit';
 import helmet, { HelmetOptions } from 'helmet';
 import helmetCsp from 'helmet-csp';
@@ -121,9 +120,6 @@ app.use((req, res, next) => {
 	res.set('Expires', '0');
 	next();
 });
-
-// Data sanitization against NoSQL query injection
-app.use(mongoSanitize());
 
 // Prevent parameter pollution
 app.use(

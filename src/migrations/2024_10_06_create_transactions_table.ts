@@ -2,14 +2,14 @@ import { Knex } from 'knex';
 
 export const up = async (knex: Knex): Promise<void> => {
 	return knex.schema.createTable('transactions', (table) => {
-		table.increments('id').primary(); // Auto-incrementing ID
-		table.integer('senderId').unsigned().notNullable(); // ID of the sender
-		table.integer('receiverId').unsigned().notNullable(); // ID of the receiver
-		table.string('walletAddress').nullable(); // Wallet address for external transfers
-		table.decimal('amount', 14, 2).notNullable(); // Amount of the transaction
-		table.string('transactionType').notNullable(); // Transaction type (e.g. 'transfer', 'withdrawal', 'deposit')
-		table.string('status').defaultTo('pending'); // Transaction status (e.g. 'pending', 'completed', 'failed')
-		table.string('transactionReference').unique().notNullable(); // Unique reference ID
+		table.increments('id').primary(); 
+		table.integer('senderId').unsigned().notNullable();
+		table.integer('receiverId').unsigned().notNullable();
+		table.string('walletAddress').nullable(); 
+		table.decimal('amount', 14, 2).notNullable();
+		table.string('transactionType').notNullable(); 
+		table.string('status').defaultTo('pending'); 
+		table.string('transactionReference').unique().notNullable(); 
 		table.timestamps(true, true);
 
 		// Foreign keys

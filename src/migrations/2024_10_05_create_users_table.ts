@@ -19,7 +19,7 @@ export const up = async (knex: Knex): Promise<void> => {
 		table.boolean('isDeleted').defaultTo(false);
 		table.boolean('isSuspended').defaultTo(false);
 		//table.boolean('isEmailVerified').defaultTo(false);
-		table.timestamps(true, true); // Adds created_at and updated_at
+		table.timestamps(true, true);
 	});
 };
 
