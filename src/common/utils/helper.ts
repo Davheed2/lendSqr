@@ -2,8 +2,8 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { randomBytes, randomInt } from 'crypto';
 import { encode } from 'hi-base32';
-import { IToken } from '../interfaces';
 import { ENVIRONMENT } from '../config';
+import { IToken } from '../interfaces';
 
 const generateRandomString = () => {
 	return randomBytes(32).toString('hex');
@@ -33,8 +33,7 @@ const generateRandom6DigitKey = () => {
 	return randomNum.toString().padStart(6, '0');
 };
 
-//jwt.JwtPayload
-const generateAuthToken = (user: IToken) => {
+const generateAuthToken = async (user: IToken) => {
 	const payload = { id: user };
 
 	const token = jwt.sign(payload, ENVIRONMENT.JWT.AUTH_SECRET as string, {
@@ -92,4 +91,5 @@ export {
 	comparePassword,
 	parseTokenDuration,
 	toJSON,
+
 };

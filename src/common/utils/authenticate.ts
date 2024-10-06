@@ -8,7 +8,7 @@ export const authenticate = async (accessToken: string): Promise<AuthenticateRes
 	try {
 		const decoded = jwt.verify(accessToken, ENVIRONMENT.JWT.AUTH_SECRET) as jwt.JwtPayload;
 
-		const currentUser = await userRepository.findById(decoded.id);
+		const currentUser = await userRepository.findById(decoded.id.user);
 		if (!currentUser) {
 			throw new AppError('User not found', 404);
 		}
@@ -26,7 +26,7 @@ export const authenticate = async (accessToken: string): Promise<AuthenticateRes
 		if (error instanceof jwt.JsonWebTokenError || error instanceof jwt.TokenExpiredError) {
 			throw new AppError('Invalid or expired token', 401);
 		} else {
-			throw new AppError('An error occurred during authentication', 500);
+			throw new AppError('An error occurred. Please log in again', 401);
 		}
 	}
 };

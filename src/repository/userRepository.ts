@@ -1,57 +1,98 @@
 import { knexDb } from '@/common/config';
-import { IUser } from '@/common/interfaces';
+import { IUser, WalletBalance } from '@/common/interfaces';
+import { AppError } from '@/common/utils';
 
 class UserRepository {
-  create = async (payload: Partial<IUser>) => {
-    return await knexDb.table("users").insert(payload);
-  };
+	create = async (payload: Partial<IUser>) => {
+		return await knexDb.table('users').insert(payload);
+	};
 
-  findById = async (id: number) => {
-    return await knexDb.table("users").where({ id }).first();
-  };
+	findById = async (id: number): Promise<IUser> => {
+		return await knexDb.table('users').where({ id }).first();
+	};
 
-  findByUsername = async (username: string) => {
-    return await knexDb.table("users").where({ username }).first();
-  };
+	findByUsername = async (username: string) => {
+		return await knexDb.table('users').where({ username }).first();
+	};
 
-  findByEmail = async (email: string) => {
-    return await knexDb.table("users").where({ email }).first();
-  };
+	findByEmail = async (email: string) => {
+		return await knexDb.table('users').where({ email }).first();
+	};
 
-  update = async (id: number, payload: IUser) => {
-    return await knexDb.table("users").where({ id }).update(payload);
-  };
+	update = async (id: number, payload: IUser) => {
+		return await knexDb.table('users').where({ id }).update(payload);
+	};
 
-  delete = async (id: number) => {
-    return await knexDb.table("users").where({ id }).del();
-  };
+	delete = async (id: number) => {
+		return await knexDb.table('users').where({ id }).del();
+	};
 
-  transferMoneyToUser = async (senderId: number, receiverId: number, amount: number) => {
-  return knexDb.transaction(async (trx) => {
-    const [sender, receiver] = await Promise.all([
-      trx("users").where({ id: senderId }).first(),
-      trx("users").where({ id: receiverId }).first(),
-    ]);
+	getBalance = async (id: number): Promise<WalletBalance> => {
+		return await knexDb.table('users').where({ id }).select('walletBalance').first();
+	};
 
-    if (!sender) {
-      throw new Error("Sender not found");
-    }
+	getAllUsers = async (): Promise<IUser[]> => {
+		return await knexDb.table('users').select('*');
+	};
 
-    if (!receiver) {
-      throw new Error("Receiver not found");
-    }
+	fundWallet = async (userId: number, validatedAmount: number) => {
+		return knexDb.transaction(async (trx) => {
+			const user = await trx('users').where({ id: userId }).first();
 
-    const senderBalance = parseFloat(sender.balance);
-    const receiverBalance = parseFloat(receiver.balance);
+			if (!user) {
+				throw new Error('User not found');
+			}
 
-    if (senderBalance < amount) {
-      throw new Error("Insufficient balance");
-    }
+			const currentBalance = parseFloat(user.walletBalance);
+			const newBalance = currentBalance + validatedAmount;
 
-    await trx("users").where({ id: senderId }).update({ balance: senderBalance - amount });
-    await trx("users").where({ id: receiverId }).update({ balance: receiverBalance + amount });
-  });
-}
+			await trx('users').where({ id: userId }).update({ walletBalance: newBalance });
+		});
+	};
+
+	transferMoneyToUser = async (senderId: number, walletAddress: string, validatedAmount: number) => {
+		return knexDb.transaction(async (trx) => {
+			const [sender, receiver] = await Promise.all([
+				trx('users').where({ id: senderId }).first(),
+				trx('users').where({ walletAddress }).first(),
+			]);
+
+			if (!sender) {
+				throw new AppError('Sender not found', 404);
+			}
+
+			if (sender.walletAddress === walletAddress) {
+				throw new AppError('Cannot transfer money to your own wallet', 400);
+			}
+
+			if (!receiver) {
+				throw new AppError('Receiver not found', 404);
+			}
+
+			const senderBalance = parseFloat(sender.walletBalance);
+			const receiverBalance = parseFloat(receiver.walletBalance);
+
+			if (senderBalance < validatedAmount) {
+				throw new AppError('Insufficient balance', 400);
+			}
+
+			await trx('users')
+				.where({ id: senderId })
+				.update({ walletBalance: senderBalance - validatedAmount });
+			await trx('users')
+				.where({ walletAddress })
+				.update({ walletBalance: receiverBalance + validatedAmount });
+		});
+	};
+
+	updateBalance = async (userId: number, balance: number, amount: number) => {
+		return knexDb.transaction(async (trx) => {
+			await trx('users')
+				.where({ id: userId })
+				.update({ walletBalance: balance - amount });
+			await trx('users');
+		});
+	};
 }
 
 export const userRepository = new UserRepository();

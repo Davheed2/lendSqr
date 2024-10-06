@@ -80,3 +80,18 @@ export const validatePassword = (password: string): string => {
 export const trim = (name: string): string => {
 	return name.trim();
 };
+
+/**
+ * Validates that the input is a number.
+ * If the input is not a number, it throws an error.
+ *
+ * @param {number} value - The value to validate.
+ * @returns {number} - The validated number.
+ */
+export const validateAmount = (value: number): number => {
+	if (typeof value !== 'number' || isNaN(value)) {
+		throw new AppError('Invalid number', 400);
+	}
+
+	return value;
+};
