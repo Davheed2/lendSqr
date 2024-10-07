@@ -24,4 +24,7 @@ export const ENVIRONMENT: IEnvironment = {
 		GMAIL_USER: process.env.GMAIL_USER!,
 		GMAIL_PASSWORD: process.env.GMAIL_PASSWORD!,
 	},
+	// ADJUTOR_TOKEN: {
+	// 	TOKEN: process.env.ADJUTOR_TOKEN!,
+	// },
 };

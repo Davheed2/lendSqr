@@ -19,8 +19,9 @@ export class UserController {
 		}
 
 		await userRepository.fundWallet(user.id, validatedAmount);
+		const balance = await userRepository.getBalance(user.id);
 
-		return AppResponse(res, 200, null, 'Wallet funded successfully');
+		return AppResponse(res, 200, balance, 'Wallet funded successfully');
 	});
 
 	transferMoneyToUser = catchAsync(async (req: Request, res: Response) => {
@@ -40,7 +41,8 @@ export class UserController {
 
 		await userRepository.transferMoneyToUser(user.id, validateAddress, validatedAmount);
 
-		return AppResponse(res, 200, null, 'Transfer successful');
+		const balance = await userRepository.getBalance(user.id);
+		return AppResponse(res, 200, balance, 'Transfer successful');
 	});
 
 	withdrawFunds = catchAsync(async (req: Request, res: Response) => {
@@ -65,8 +67,9 @@ export class UserController {
 		}
 
 		await userRepository.updateBalance(user.id, userBalance, validatedAmount);
+		const balance = await userRepository.getBalance(user.id);
 
-		return AppResponse(res, 200, null, 'Withdrawal successful');
+		return AppResponse(res, 200, balance, 'Withdrawal successful');
 	});
 
 	getUsers = catchAsync(async (req: Request, res: Response) => {
