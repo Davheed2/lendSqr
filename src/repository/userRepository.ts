@@ -78,7 +78,7 @@ class UserRepository {
 			}
 
 			if (!receiver) {
-				throw new AppError('Receiver not found', 404);
+				throw new AppError('User with wallet address not found', 404);
 			}
 
 			const senderBalance = parseFloat(sender.walletBalance);

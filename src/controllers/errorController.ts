@@ -40,7 +40,8 @@ const sendErrorProd = (err: AppError, res: Response) => {
 	});
 };
 
-export const errorHandler = (err, req, res) => {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export const errorHandler = (err, req, res, next) => {
 	err.statusCode = err?.statusCode || 500;
 	err.status = err?.status || 'Error';
 	let error = err;
