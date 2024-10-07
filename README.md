@@ -210,6 +210,6 @@ You should be able to access the API at `http://localhost:your-port`.
 
 ## License
 
-By contributing to StartEase, you agree that your contributions will be licensed under the [MIT License](LICENSE.md).
+By contributing to Demo Credit, you agree that your contributions will be licensed under the [MIT License](LICENSE.md).
 
 ---

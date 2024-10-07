@@ -20,6 +20,8 @@ export const up = async (knex: Knex): Promise<void> => {
 		table.boolean('isSuspended').defaultTo(false);
 		//table.boolean('isEmailVerified').defaultTo(false);
 		table.timestamps(true, true);
+
+		table.index('email');
 	});
 };
 
