@@ -20,7 +20,7 @@ class UserRepository {
 		return await knexDb.table('users').where({ email }).first();
 	};
 
-	update = async (id: number, payload: IUser) => {
+	update = async (id: number, payload: Partial<IUser>) => {
 		return await knexDb.table('users').where({ id }).update(payload);
 	};
 
@@ -100,7 +100,7 @@ class UserRepository {
 			await transactionRepository.create({
 				senderId: senderId,
 				receiverId: receiver.id,
-        walletAddress: walletAddress,
+				walletAddress: walletAddress,
 				amount: validatedAmount,
 				transactionType: 'transfer',
 				status: 'completed',

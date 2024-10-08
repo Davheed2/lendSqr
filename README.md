@@ -110,6 +110,14 @@ The Project technologies used:
 - **Endpoint**: `{{BASE_URL}}/api/v1/user/wallet/fund`
 - **Method**: `POST`
 - **Description**: Fund your wallet.
+- **Headers**:
+
+```json
+{
+	"Authorization": "Bearer <your_token_here>"
+}
+```
+
 - **Request Body**:
 
 ```json
@@ -135,6 +143,14 @@ The Project technologies used:
 - **Endpoint**: `{{BASE_URL}}/api/v1/user/withdraw`
 - **Method**: `POST`
 - **Description**: Withdraw funds from your wallet.
+- **Headers**:
+
+```json
+{
+	"Authorization": "Bearer <your_token_here>"
+}
+```
+
 - **Request Body**:
 
 ```json
@@ -160,6 +176,14 @@ The Project technologies used:
 - **Endpoint**: `{{BASE_URL}}/api/v1/user/transfer/fund`
 - **Method**: `POST`
 - **Description**: Transfer money to another user's wallet using their wallet address.
+- **Headers**:
+
+```json
+{
+	"Authorization": "Bearer <your_token_here>"
+}
+```
+
 - **Request Body**:
 
 ```json

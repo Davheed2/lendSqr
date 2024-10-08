@@ -54,6 +54,8 @@ class AuthController {
 			ipAddress: req.ip,
 		});
 
+		console.log(user)
+
 		const token: IToken = { user };
 		await generateAuthToken(token);
 
