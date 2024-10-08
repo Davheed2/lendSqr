@@ -6,6 +6,7 @@
 	"scripts": {
 		"start": "node -r ts-node/register/transpile-only -r tsconfig-paths/register build/server.js",
 		"start-prod": "node build/server.js",
+		"start:dev": "nodemon src/server.ts",
 		"build": "tsc",
 		"dev": "nodemon",
 		"watch": "tsc --watch & nodemon build/server.js",
