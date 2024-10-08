@@ -22,7 +22,7 @@ export interface IEnvironment {
 		GMAIL_USER: string;
 		GMAIL_PASSWORD: string;
 	};
-	// ADJUTOR_TOKEN: {
-	// 	TOKEN: string;
-	// }
+	ADJUTOR_TOKEN: {
+		TOKEN: string;
+	}
 }

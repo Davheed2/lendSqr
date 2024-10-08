@@ -36,6 +36,7 @@ export const authenticate = async (accessToken: string): Promise<AuthenticateRes
 		// if (data.status === 404) {
 
 		// 	// Process my data or block the user
+		// suspend the user
 		// 	console.log(data);
 		// 	return { currentUser };
 		// } else {

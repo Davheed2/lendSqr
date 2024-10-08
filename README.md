@@ -23,6 +23,15 @@ The database structure is defined using two main tables: users and transactions.
 Here’s a visual representation of the schema:
 <img width="1248" alt="ER-diagram" src="./src/assets/e-r-diagram_1.png">
 
+## Technologies Used
+
+The Project technologies used:
+
+- [x] Nodejs
+- [x] Typescript
+- [x] MySQL
+- [x] Knexjs ORM
+
 ## API Endpoints
 
 ### User Endpoints
