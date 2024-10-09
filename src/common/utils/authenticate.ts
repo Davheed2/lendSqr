@@ -9,11 +9,8 @@ export const authenticate = async (accessToken: string): Promise<AuthenticateRes
 	try {
 		const decoded = jwt.verify(accessToken, ENVIRONMENT.JWT.AUTH_SECRET) as jwt.JwtPayload;
 
-		console.log(decoded);
-
 		const currentUser = await userRepository.findById(decoded.id);
 
-		console.log(currentUser);
 		if (!currentUser) {
 			throw new AppError('User not found', 404);
 		}

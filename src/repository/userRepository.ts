@@ -16,7 +16,7 @@ class UserRepository {
 		return await knexDb.table('users').where({ username }).first();
 	};
 
-	findByEmail = async (email: string) => {
+	findByEmail = async (email: string): Promise<IUser> => {
 		return await knexDb.table('users').where({ email }).first();
 	};
 

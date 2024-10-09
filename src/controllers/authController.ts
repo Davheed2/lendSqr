@@ -54,9 +54,7 @@ class AuthController {
 			ipAddress: req.ip,
 		});
 
-		console.log(user)
-
-		const token: IToken = { user };
+		const token: IToken = { id: user };
 		await generateAuthToken(token);
 
 		return AppResponse(res, 201, user, 'User created successfully');
@@ -79,8 +77,8 @@ class AuthController {
 			throw new AppError('Invalid email or password', 401);
 		}
 
-		await generateAuthToken(user.id);
-
+		const token: IToken = { id: user.id };
+		await generateAuthToken(token);
 		return AppResponse(res, 200, toJSON(user, ['password']), 'Login successful');
 	});
 }

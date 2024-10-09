@@ -1,3 +1,3 @@
 export interface IToken {
-	user: number;
+	id: number;
 }

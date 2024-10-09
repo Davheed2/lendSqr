@@ -34,7 +34,7 @@ const generateRandom6DigitKey = () => {
 };
 
 const generateAuthToken = async (user: IToken) => {
-	const payload = { id: user };
+	const payload = { id: user.id };
 
 	const token = jwt.sign(payload, ENVIRONMENT.JWT.AUTH_SECRET as string, {
 		expiresIn: ENVIRONMENT.JWT_EXPIRES_IN.AUTH,
@@ -75,7 +75,7 @@ const parseTokenDuration = (duration: string): number => {
 	}
 };
 
-const toJSON = <T extends Record<string, unknown>>(obj: T, excludeFields: string[] = []): Partial<T> => {
+const toJSON = <T extends object>(obj: T, excludeFields: (keyof T)[] = []): Partial<T> => {
 	const sanitizedObj: Partial<T> = { ...obj };
 	excludeFields.forEach((field) => delete sanitizedObj[field]);
 	return sanitizedObj;
