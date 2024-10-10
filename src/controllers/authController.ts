@@ -54,10 +54,12 @@ class AuthController {
 			ipAddress: req.ip,
 		});
 
-		const token: IToken = { id: user };
-		await generateAuthToken(token);
+		console.log(user)
 
-		return AppResponse(res, 201, user, 'User created successfully');
+		const token: IToken = { id: user };
+		const authToken = await generateAuthToken(token);
+
+		return AppResponse(res, 201, { user, token: authToken }, 'User created successfully');
 	});
 
 	signIn = catchAsync(async (req: Request, res: Response) => {
@@ -78,8 +80,8 @@ class AuthController {
 		}
 
 		const token: IToken = { id: user.id };
-		await generateAuthToken(token);
-		return AppResponse(res, 200, toJSON(user, ['password']), 'Login successful');
+		const authToken = await generateAuthToken(token);
+		return AppResponse(res, 200, { user: toJSON(user, ['password']), token: authToken }, 'Login successful');
 	});
 }
 

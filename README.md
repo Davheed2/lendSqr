@@ -59,7 +59,10 @@ The Project technologies used:
 ```json
 {
 	"status": "success",
-	"data": "number",
+	"data": {
+		"user": "number",
+		"token": "string"
+	}
 	"message": "User created successfully"
 }
 ```
@@ -84,20 +87,23 @@ The Project technologies used:
 {
 	"status": "success",
 	"data": {
-		"id": "number",
-		"firstName": "string",
-		"lastName": "string",
-		"username": "string",
-		"phoneNumber": "string",
-		"email": "string",
-		"walletBalance": "number",
-		"walletAddress": "string",
-		"role": "string",
-		"ipAddress": "string",
-		"isDeleted": "boolean",
-		"isSuspended": "boolean",
-		"created_at": "Date",
-		"updated_at": "Date"
+		"user": {
+			"id": "number",
+			"firstName": "string",
+			"lastName": "string",
+			"username": "string",
+			"phoneNumber": "string",
+			"email": "string",
+			"walletBalance": "number",
+			"walletAddress": "string",
+			"role": "string",
+			"ipAddress": "string",
+			"isDeleted": "boolean",
+			"isSuspended": "boolean",
+			"created_at": "Date",
+			"updated_at": "Date"
+		},
+		"token": "string"
 	},
 	"message": "Login successful"
 }
